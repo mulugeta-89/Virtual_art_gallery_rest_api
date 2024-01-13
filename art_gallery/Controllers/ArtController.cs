@@ -77,6 +77,7 @@ namespace art_gallery.Controllers
             artPieces.Add(art);
             return CreatedAtAction("Get", art.Id, art);
         }
+
         [HttpPut("{id}")]
         public IActionResult Put(int id, Art art)
         {
@@ -94,7 +95,18 @@ namespace art_gallery.Controllers
             arti.Date_Of_Work = art.Date_Of_Work;
             arti.EstimatedValue = art.EstimatedValue;
             arti.Style = art.Style;
+            return NoContent();
+        }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id) { 
+            var arti = artPieces.FirstOrDefault(x => x.Id == id);
+
+            if (arti == null)
+            {
+                return NotFound("art not found");
+            }
+            artPieces.Remove(arti);
             return NoContent();
         }
 
