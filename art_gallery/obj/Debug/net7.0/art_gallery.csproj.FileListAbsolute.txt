@@ -31,3 +31,4 @@ C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\obj\Debug\net7
 C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\obj\Debug\net7.0\art_gallery.pdb
 C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\obj\Debug\net7.0\art_gallery.genruntimeconfig.cache
 C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\obj\Debug\net7.0\ref\art_gallery.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\obj\Debug\net7.0\art_gallery.sourcelink.json
