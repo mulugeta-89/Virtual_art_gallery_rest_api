@@ -11,7 +11,7 @@ namespace art_gallery.Controllers
          {
             new Art()
             {
-            Id = Guid.NewGuid(),
+            Id = 1,
             Title = "Starry Night",
             Description = "A famous night sky painting by Vincent van Gogh",
             Artist = "Vincent van Gogh",
@@ -22,7 +22,7 @@ namespace art_gallery.Controllers
             },
             new Art()
             {
-                Id = Guid.NewGuid(),
+                Id = 2,
                 Title = "The Persistence of Memory",
                 Description = "A surrealist painting by Salvador Dali featuring melting clocks",
                 Artist = "Salvador Dali",
@@ -33,7 +33,7 @@ namespace art_gallery.Controllers
             },
             new Art()
             {
-                Id = Guid.NewGuid(),
+                Id = 3,
                 Title = "David",
                 Description = "A renowned marble statue by Michelangelo",
                 Artist = "Michelangelo",
@@ -44,7 +44,7 @@ namespace art_gallery.Controllers
             },
             new Art()
             {
-                Id = Guid.NewGuid(),
+                Id = 4,
                 Title = "Guernica",
                 Description = "A powerful anti-war mural by Pablo Picasso",
                 Artist = "Pablo Picasso",
@@ -59,6 +59,16 @@ namespace art_gallery.Controllers
         public IActionResult Get()
         {
             return Ok(artPieces);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id) {
+            var art = artPieces.FirstOrDefault(x => x.Id == id);
+            if (art == null)
+            {
+                return BadRequest("Art Not found");
+            }
+            return Ok(art);
         }
 
     }
