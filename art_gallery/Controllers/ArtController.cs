@@ -7,7 +7,7 @@ namespace art_gallery.Controllers
     [ApiController]
     public class ArtsController : ControllerBase
     {
-        public List<Art> artPieces = new List<Art>()
+        public static List<Art> artPieces = new List<Art>()
          {
             new Art()
             {
@@ -69,6 +69,13 @@ namespace art_gallery.Controllers
                 return BadRequest("Art Not found");
             }
             return Ok(art);
+        }
+
+        [HttpPost]
+        public IActionResult Post(Art art)
+        {
+            artPieces.Add(art);
+            return CreatedAtAction("Get", art.Id, art);
         }
 
     }
