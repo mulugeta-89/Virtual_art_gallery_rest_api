@@ -1,7 +1,12 @@
+using art_gallery.Models;
+using art_gallery.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.Configure<ArtGalleryDatabaseSettings>(
+    builder.Configuration.GetSection("ArtGalleryDatabase"));
+builder.Services.AddSingleton<ArtsService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

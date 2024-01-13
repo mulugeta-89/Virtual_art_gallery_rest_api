@@ -32,3 +32,16 @@ C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\obj\Debug\net7
 C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\obj\Debug\net7.0\art_gallery.genruntimeconfig.cache
 C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\obj\Debug\net7.0\ref\art_gallery.dll
 C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\obj\Debug\net7.0\art_gallery.sourcelink.json
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\AWSSDK.Core.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\AWSSDK.SecurityToken.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\DnsClient.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\MongoDB.Bson.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\MongoDB.Driver.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\MongoDB.Driver.Core.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\MongoDB.Libmongocrypt.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\SharpCompress.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\Snappier.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\ZstdSharp.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\runtimes\linux\native\libmongocrypt.so
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\runtimes\osx\native\libmongocrypt.dylib
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\runtimes\win\native\mongocrypt.dll
