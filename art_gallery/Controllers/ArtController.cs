@@ -77,6 +77,26 @@ namespace art_gallery.Controllers
             artPieces.Add(art);
             return CreatedAtAction("Get", art.Id, art);
         }
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Art art)
+        {
+            var arti = artPieces.FirstOrDefault(x => x.Id == id);
+
+            if (arti == null)
+            {
+                return NotFound("Art not found");
+            }
+            arti.Id = art.Id;
+            arti.Title = art.Title;
+            arti.Description = art.Description;
+            arti.Artist = art.Artist;
+            arti.Dimensions = art.Dimensions;
+            arti.Date_Of_Work = art.Date_Of_Work;
+            arti.EstimatedValue = art.EstimatedValue;
+            arti.Style = art.Style;
+
+            return NoContent();
+        }
 
     }
 }
