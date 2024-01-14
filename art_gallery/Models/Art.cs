@@ -23,5 +23,8 @@ namespace art_gallery.Models
 
         [BsonRepresentation(BsonType.Decimal128)]
         public decimal EstimatedValue { get; set; }
+
+        public List<Comment> Comments { get; set; }
+
     }
 }

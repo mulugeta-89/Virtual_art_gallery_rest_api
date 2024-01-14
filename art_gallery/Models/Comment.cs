@@ -1,0 +1,18 @@
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+using System;
+
+namespace art_gallery.Models
+{
+    // Represents a comment made by a user for a piece of art.
+    public class Comment
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+
+        public string UserName { get; set; }
+        public string Content { get; set; }
+        public DateTime Timestamp { get; set; }
+    }
+}

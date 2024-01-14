@@ -55,6 +55,7 @@ namespace art_gallery.Controllers
             arti.EstimatedValue = art.EstimatedValue;
             arti.Style = art.Style;
 
+
             await _artService.UpdateAsync(id, arti);
             return NoContent();
         }
@@ -71,5 +72,56 @@ namespace art_gallery.Controllers
             return NoContent();
         }
 
+        [HttpGet("{id}/Comments")]
+        public async Task<IActionResult> GetComments(string id)
+        {
+            var art = await _artService.GetAsync(id);
+            if (art == null)
+            {
+                return NotFound("art not found");
+            }
+            return Ok(art.Comments);
+        }
+
+        [HttpGet("{id}/Comments/{commentId}")]
+        public async Task<IActionResult> GetComment(string id, string commentId)
+        {
+            var art = await _artService.GetAsync(id);
+            var artComments = art.Comments;
+            if (art == null || artComments == null)
+            {
+                return NotFound("art not found");
+            }
+            var comment = artComments.FirstOrDefault(y => y.Id == commentId);
+            return Ok(comment);
+        }
+
+        [HttpPost("{id}/Comments")]
+        public async Task<IActionResult> PostComment(string id, Comment comment)
+        {
+            var art = await _artService.GetAsync(id);
+            if (art == null)
+            {
+                return NotFound("art not found");
+            }
+            art.Comments.Add(comment);
+            await _artService.UpdateAsync(id, art);
+            return Ok(art.Comments);
+        }
+
+        [HttpDelete("{id}/Comments/{commentId}")]
+        public async Task<IActionResult> DeleteComment(string id, string commentId)
+        {
+            var art = await _artService.GetAsync(id);
+            var artComments = art.Comments;
+            var comment = artComments.FirstOrDefault(x => x.Id == commentId);
+            if (art == null)
+            {
+                return NotFound("art not found");
+            }
+            art.Comments.Remove(comment);
+            await _artService.UpdateAsync(id, art);
+            return Ok(art.Comments);
+        }
     }
 }
