@@ -17,6 +17,7 @@ namespace art_gallery.Models
         public string Description { get; set; }
         public string Artist { get; set; }
         public string Dimensions { get; set; }
+        public byte[]? ImageData { get; set; } = new byte[0];
 
         [BsonRepresentation(BsonType.DateTime)]
         public DateTime DateOfWork { get; set; }

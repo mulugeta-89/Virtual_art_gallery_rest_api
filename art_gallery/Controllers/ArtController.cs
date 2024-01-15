@@ -43,6 +43,27 @@ namespace art_gallery.Controllers
             await _artService.CreateAsync(art);
             return CreatedAtAction("Get", art.Id, art);
         }
+        [HttpPost("upload-image/{artId}")]
+        public async Task<IActionResult> UploadImage(string artId, [FromForm] IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var art = await _artService.GetAsync(artId);
+
+            if (art == null)
+                return NotFound("Art not found.");
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                art.ImageData = memoryStream.ToArray();
+            }
+
+            await _artService.UpdateAsync(artId, art);
+
+            return Ok(new { message = "Image uploaded successfully." });
+        }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, Art art)

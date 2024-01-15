@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using art_gallery.Services;
 using System.Security.Claims;
 using System.Text;
 
@@ -33,10 +34,6 @@ namespace art_gallery.Controllers
             return Ok(new { message = "role created succesfully" });
         }
 
-
-
-
-
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
@@ -44,10 +41,8 @@ namespace art_gallery.Controllers
             var result = await RegisterAsync(request);
 
             return result.Success ? Ok(result) : BadRequest(result.Message);
-
         }
-
-        private async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
+        public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
         {
             try
             {
@@ -87,6 +82,7 @@ namespace art_gallery.Controllers
             }
         }
 
+
         [HttpGet("users/{userId}")]
         public async Task<IActionResult> GetUserById(string userId)
         {
@@ -104,13 +100,13 @@ namespace art_gallery.Controllers
 
         [HttpPost]
         [Route("login")]
-        [ProducesResponseType((int) HttpStatusCode.OK,Type = typeof(LoginResponse))]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(LoginResponse))]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var result = await LoginAsync(request);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
-        private async Task<LoginResponse> LoginAsync(LoginRequest request)
+        public async Task<LoginResponse> LoginAsync(LoginRequest request)
         {
             try
             {
