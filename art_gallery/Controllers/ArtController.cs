@@ -1,7 +1,10 @@
-﻿using art_gallery.Models;
+﻿using Amazon.Runtime.Internal;
+using art_gallery.Models;
 using art_gallery.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace art_gallery.Controllers
 {
@@ -35,6 +38,8 @@ namespace art_gallery.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Art art)
         {
+            var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            art.Owner = userId;
             await _artService.CreateAsync(art);
             return CreatedAtAction("Get", art.Id, art);
         }
@@ -101,12 +106,20 @@ namespace art_gallery.Controllers
         [HttpPost("{id}/Comments")]
         public async Task<IActionResult> PostComment(string id, Comment comment)
         {
+            var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var art = await _artService.GetAsync(id);
             if (art == null)
             {
                 return NotFound("art not found");
             }
-            art.Comments.Add(comment);
+            var newComment = new Comment 
+            { 
+                Content = comment.Content,
+                Timestamp = comment.Timestamp,
+                UserId = userId
+            };
+
+            art.Comments.Add(newComment);
             await _artService.UpdateAsync(id, art);
             return Ok(art.Comments);
         }

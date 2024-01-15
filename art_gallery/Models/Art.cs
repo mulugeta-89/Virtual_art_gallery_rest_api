@@ -11,7 +11,9 @@ namespace art_gallery.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
 
+
         public string Title { get; set; }
+        public string? Owner { get; set; }
         public string Description { get; set; }
         public string Artist { get; set; }
         public string Dimensions { get; set; }
@@ -24,7 +26,7 @@ namespace art_gallery.Models
         [BsonRepresentation(BsonType.Decimal128)]
         public decimal EstimatedValue { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public List<Comment> Comments { get; set; } = new List<Comment>();
 
     }
 }

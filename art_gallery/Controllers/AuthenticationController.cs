@@ -87,9 +87,19 @@ namespace art_gallery.Controllers
             }
         }
 
+        [HttpGet("users/{userId}")]
+        public async Task<IActionResult> GetUserById(string userId)
+        {
+            // Retrieve user information from the database or another data source
+            var user = await _userManager.FindByIdAsync(userId);
 
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
 
-
+            return Ok(user);
+        }
 
 
         [HttpPost]
@@ -110,12 +120,12 @@ namespace art_gallery.Controllers
 
                 //all is well if ew reach here
                 var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                };
                 var roles = await _userManager.GetRolesAsync(user);
                 var roleClaims = roles.Select(x => new Claim(ClaimTypes.Role, x));
                 claims.AddRange(roleClaims);
