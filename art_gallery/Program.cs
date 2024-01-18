@@ -62,6 +62,7 @@ builder.Services.AddAuthentication(x =>
 builder.Services.Configure<ArtGalleryDatabaseSettings>(
     builder.Configuration.GetSection("ArtGalleryDatabase"));
 builder.Services.AddSingleton<ArtsService>();
+builder.Services.AddSingleton<SoloExhibitionService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
