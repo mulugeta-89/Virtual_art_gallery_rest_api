@@ -42,7 +42,7 @@ namespace art_gallery.Controllers
 
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
-        public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
+        private async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace art_gallery.Controllers
         [HttpGet("users/{userId}")]
         public async Task<IActionResult> GetUserById(string userId)
         {
-            // Retrieve user information from the database or another data source
+            
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
@@ -106,7 +106,7 @@ namespace art_gallery.Controllers
             var result = await LoginAsync(request);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
-        public async Task<LoginResponse> LoginAsync(LoginRequest request)
+        private async Task<LoginResponse> LoginAsync(LoginRequest request)
         {
             try
             {

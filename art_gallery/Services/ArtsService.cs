@@ -27,6 +27,9 @@ namespace art_gallery.Services
         public async Task<Art?> GetAsync(string id) =>
             await _artsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
+        public async Task<List<Art>> GetSpecificAsync(string ownerId) =>
+            await _artsCollection.Find(x => x.Owner == ownerId).ToListAsync();
+
         public async Task CreateAsync(Art newArt) =>
             await _artsCollection.InsertOneAsync(newArt);
 
