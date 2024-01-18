@@ -74,6 +74,11 @@ namespace art_gallery.Controllers
             {
                 return NotFound("Art not found");
             }
+            var loggedInUserId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (arti.Owner != loggedInUserId)
+            {
+                return Forbid("You are not the owner of this art.");
+            }
             arti.Id = art.Id ?? arti.Id;
             arti.Title = art.Title;
             arti.Description = art.Description;
@@ -95,6 +100,14 @@ namespace art_gallery.Controllers
             if (arti == null)
             {
                 return NotFound("art not found");
+            }
+            var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (arti.Owner != userId)
+            {
+                return new ObjectResult("You are not the owner of this art.")
+                {
+                    StatusCode = 403 // Forbidden
+                };
             }
             await _artService.RemoveAsync(id);
             return NoContent();
