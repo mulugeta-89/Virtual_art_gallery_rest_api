@@ -1,8 +1,8 @@
-﻿using art_gallery.Models;
+﻿using System.Security.Claims;
+using art_gallery.Models;
 using art_gallery.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace art_gallery.Controllers
 {
@@ -17,14 +17,12 @@ namespace art_gallery.Controllers
             _soloExhibitionService = soloExhibitionService;
         }
 
-
         [HttpGet]
         public async Task<ActionResult<List<SoloExhibition>>> Get()
         {
             var soloExhibitions = await _soloExhibitionService.GetAllAsync();
             return Ok(soloExhibitions);
         }
-
 
         [HttpGet("{id}")]
         public async Task<ActionResult<SoloExhibition>> GetById(string id)

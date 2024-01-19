@@ -1,6 +1,6 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using System;
 using MongoDB.Bson;
-using System;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace art_gallery.Models
 {
@@ -14,6 +14,5 @@ namespace art_gallery.Models
         public DateTime? Timestamp { get; set; } = DateTime.UtcNow;
 
         public string? UserId { get; set; }
-
     }
 }

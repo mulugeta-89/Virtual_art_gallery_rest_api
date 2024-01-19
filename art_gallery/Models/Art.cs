@@ -1,7 +1,7 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Serializers;
-using System;
 
 namespace art_gallery.Models
 {
@@ -10,7 +10,6 @@ namespace art_gallery.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
-
 
         public string Title { get; set; }
         public bool Private { get; set; } = true;
@@ -29,6 +28,5 @@ namespace art_gallery.Models
         public decimal EstimatedValue { get; set; }
 
         public List<Comment> Comments { get; set; } = new List<Comment>();
-
     }
 }

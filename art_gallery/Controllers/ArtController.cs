@@ -1,10 +1,10 @@
-﻿using Amazon.Runtime.Internal;
+﻿using System.Security.Claims;
+using Amazon.Runtime.Internal;
 using art_gallery.Models;
 using art_gallery.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace art_gallery.Controllers
 {
@@ -13,10 +13,12 @@ namespace art_gallery.Controllers
     public class ArtsController : ControllerBase
     {
         public readonly ArtsService _artService;
+
         public ArtsController(ArtsService artService)
         {
             _artService = artService;
         }
+
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
@@ -32,7 +34,8 @@ namespace art_gallery.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id) {
+        public async Task<IActionResult> Get(string id)
+        {
             var art = await _artService.GetAsync(id);
             if (art == null)
             {
@@ -101,14 +104,14 @@ namespace art_gallery.Controllers
             arti.EstimatedValue = art.EstimatedValue;
             arti.Style = art.Style;
 
-
             await _artService.UpdateAsync(id, arti);
             return NoContent();
         }
 
         [Authorize(Roles = "ARTIST")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id) { 
+        public async Task<IActionResult> Delete(string id)
+        {
             var arti = await _artService.GetAsync(id);
 
             if (arti == null)
@@ -163,8 +166,8 @@ namespace art_gallery.Controllers
             {
                 return NotFound("art not found");
             }
-            var newComment = new Comment 
-            { 
+            var newComment = new Comment
+            {
                 Content = comment.Content,
                 Timestamp = comment.Timestamp,
                 UserId = userId

@@ -1,7 +1,7 @@
-﻿using art_gallery.Services;
+﻿using System.Security.Claims;
+using art_gallery.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace art_gallery.Controllers
 {
@@ -12,6 +12,7 @@ namespace art_gallery.Controllers
     {
         public readonly ArtsService _artService;
         public readonly SoloExhibitionService _soloExhibitionService;
+
         public UserController(ArtsService artService, SoloExhibitionService soloExhibitionService)
         {
             _artService = artService;
@@ -35,6 +36,5 @@ namespace art_gallery.Controllers
             var exhibitions = await _soloExhibitionService.GetSpecificAsync(userId);
             return Ok(exhibitions);
         }
-
     }
 }

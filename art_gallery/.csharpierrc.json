@@ -1,0 +1,7 @@
+{
+  "EndOfLine": "lf",
+  "Indent": 2,
+  "UseTabs": false,
+  "SpaceBeforeMethodCallParentheses": true,
+  "NewLineBeforeMembersInObjectInit": true
+}
