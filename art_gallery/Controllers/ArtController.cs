@@ -172,16 +172,27 @@ namespace art_gallery.Controllers
         public async Task<IActionResult> DeleteComment(string id, string commentId)
         {
             var art = await _artService.GetAsync(id);
-            var artComments = art.Comments;
-            var comment = artComments.FirstOrDefault(x => x.Id == commentId);
             if (art == null)
             {
                 return NotFound("art not found");
+            }
+            var artComments = art.Comments;
+            var comment = artComments.FirstOrDefault(x => x.Id == commentId);
+            if (comment == null)
+            {
+                return NotFound("comment not found");
             }
             var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (art.Owner != userId)
             {
                 return new ObjectResult("You are not the owner of this art.")
+                {
+                    StatusCode = 403 // Forbidden
+                };
+            }
+            if (comment.UserId != userId)
+            {
+                return new ObjectResult("You are not the ownder of the comment.")
                 {
                     StatusCode = 403 // Forbidden
                 };

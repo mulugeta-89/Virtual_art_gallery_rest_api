@@ -19,17 +19,17 @@ namespace art_gallery.Services
             _exhibitionsCollection = mongoDatabase.GetCollection<SoloExhibition>(
                 ArtGalleryDatabaseSettings.Value.ExhibitionsCollectionName);
         }
-
+        // to get al the exhibitions
         public async Task<List<SoloExhibition>> GetAllAsync()
         {
             return await _exhibitionsCollection.Find(_ => true).ToListAsync();
         }
-
+        //to get exhibition with id
         public async Task<SoloExhibition> GetByIdAsync(string id)
         {
             return await _exhibitionsCollection.Find(s => s.Id == id).FirstOrDefaultAsync();
         }
-
+        //to get exhibition specific to logged-in user
         public async Task<List<SoloExhibition>> GetSpecificAsync(string ownerId) =>
             await _exhibitionsCollection.Find(x => x.Curator == ownerId).ToListAsync();
 

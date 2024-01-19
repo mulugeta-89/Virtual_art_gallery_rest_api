@@ -25,5 +25,6 @@ namespace art_gallery.Models
 
         [BsonElement("artworkIds")]
         public List<string> ArtworkIds { get; set; } = new List<string>();
+        public List<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

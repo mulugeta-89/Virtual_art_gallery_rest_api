@@ -21,7 +21,6 @@ namespace art_gallery.Controllers
         public async Task<IActionResult> GetArts()
         {
             var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            Console.WriteLine(userId);
             var arts = await _artService.GetSpecificAsync(userId);
             return Ok(arts);
         }
@@ -30,7 +29,6 @@ namespace art_gallery.Controllers
         public async Task<IActionResult> GetExhibitions()
         {
             var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            Console.WriteLine(userId);
             var exhibitions = await _soloExhibitionService.GetSpecificAsync(userId);
             return Ok(exhibitions);
         }

@@ -97,5 +97,77 @@ namespace art_gallery.Controllers
             await _soloExhibitionService.DeleteAsync(id);
             return NoContent();
         }
+
+        [HttpGet("{id}/Comments")]
+        public async Task<IActionResult> GetComments(string id)
+        {
+            var exhibition = await _soloExhibitionService.GetByIdAsync(id);
+            if (exhibition == null)
+            {
+                return NotFound("exhibition not found");
+            }
+            return Ok(exhibition.Comments);
+        }
+
+        [HttpGet("{id}/Comments/{commentId}")]
+        public async Task<IActionResult> GetComment(string id, string commentId)
+        {
+            var exhibition = await _soloExhibitionService.GetByIdAsync(id);
+            var exhibitionComments = exhibition.Comments;
+            if (exhibition == null || exhibitionComments == null)
+            {
+                return NotFound("exhibition not found");
+            }
+            var comment = exhibitionComments.FirstOrDefault(y => y.Id == commentId);
+            return Ok(comment);
+        }
+
+        [HttpPost("{id}/Comments")]
+        public async Task<IActionResult> PostComment(string id, Comment comment)
+        {
+            var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var exhibition = await _soloExhibitionService.GetByIdAsync(id);
+            if (exhibition == null)
+            {
+                return NotFound("exhibition not found");
+            }
+            var newComment = new Comment
+            {
+                Content = comment.Content,
+                Timestamp = comment.Timestamp,
+                UserId = userId
+            };
+
+            exhibition.Comments.Add(newComment);
+            await _soloExhibitionService.UpdateAsync(id, exhibition);
+            return Ok(exhibition.Comments);
+        }
+
+        [HttpDelete("{id}/Comments/{commentId}")]
+        public async Task<IActionResult> DeleteComment(string id, string commentId)
+        {
+            var exhibition = await _soloExhibitionService.GetByIdAsync(id);
+            if (exhibition == null)
+            {
+                return NotFound("exhibition not found");
+            }
+            var exhibitionComments = exhibition.Comments;
+            var comment = exhibitionComments.FirstOrDefault(x => x.Id == commentId);
+            if (comment == null)
+            {
+                return NotFound("comment not found");
+            }
+            var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (comment.UserId != userId)
+            {
+                return new ObjectResult("You are not the owner of the comment.")
+                {
+                    StatusCode = 403 // Forbidden
+                };
+            }
+            exhibition.Comments.Remove(comment);
+            await _soloExhibitionService.UpdateAsync(id, exhibition);
+            return Ok(exhibition.Comments);
+        }
     }
 }
