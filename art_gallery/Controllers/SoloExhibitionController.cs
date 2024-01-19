@@ -6,7 +6,6 @@ using System.Security.Claims;
 
 namespace art_gallery.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SoloExhibitionController : ControllerBase
@@ -38,7 +37,7 @@ namespace art_gallery.Controllers
             return Ok(soloExhibition);
         }
 
-
+        [Authorize(Roles = "ARTIST")]
         [HttpPost]
         public async Task<ActionResult> Create(SoloExhibition soloExhibition)
         {
@@ -49,7 +48,7 @@ namespace art_gallery.Controllers
             return CreatedAtAction("Get", soloExhibition.Id, soloExhibition);
         }
 
-
+        [Authorize(Roles = "ARTIST")]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(string id, SoloExhibition soloExhibition)
         {
@@ -77,6 +76,7 @@ namespace art_gallery.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "ARTIST")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(string id)
         {
@@ -98,6 +98,7 @@ namespace art_gallery.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpGet("{id}/Comments")]
         public async Task<IActionResult> GetComments(string id)
         {
@@ -109,6 +110,7 @@ namespace art_gallery.Controllers
             return Ok(exhibition.Comments);
         }
 
+        [Authorize]
         [HttpGet("{id}/Comments/{commentId}")]
         public async Task<IActionResult> GetComment(string id, string commentId)
         {
@@ -122,6 +124,7 @@ namespace art_gallery.Controllers
             return Ok(comment);
         }
 
+        [Authorize]
         [HttpPost("{id}/Comments")]
         public async Task<IActionResult> PostComment(string id, Comment comment)
         {
@@ -143,6 +146,7 @@ namespace art_gallery.Controllers
             return Ok(exhibition.Comments);
         }
 
+        [Authorize]
         [HttpDelete("{id}/Comments/{commentId}")]
         public async Task<IActionResult> DeleteComment(string id, string commentId)
         {

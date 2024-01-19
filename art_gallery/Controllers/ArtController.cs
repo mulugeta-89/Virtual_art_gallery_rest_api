@@ -51,6 +51,8 @@ namespace art_gallery.Controllers
             await _artService.CreateAsync(art);
             return CreatedAtAction("Get", art.Id, art);
         }
+
+        [Authorize(Roles = "ARTIST")]
         [HttpPost("upload-image/{artId}")]
         public async Task<IActionResult> UploadImage(string artId, [FromForm] IFormFile file)
         {
@@ -73,6 +75,7 @@ namespace art_gallery.Controllers
             return Ok(new { message = "Image uploaded successfully." });
         }
 
+        [Authorize(Roles = "ARTIST")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, Art art)
         {
@@ -104,6 +107,7 @@ namespace art_gallery.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "ARTIST")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id) { 
             var arti = await _artService.GetAsync(id);
@@ -148,6 +152,7 @@ namespace art_gallery.Controllers
             return Ok(comment);
         }
 
+        [Authorize]
         [HttpPost("{id}/Comments")]
         public async Task<IActionResult> PostComment(string id, Comment comment)
         {
@@ -169,6 +174,7 @@ namespace art_gallery.Controllers
             return Ok(art.Comments);
         }
 
+        [Authorize]
         [HttpDelete("{id}/Comments/{commentId}")]
         public async Task<IActionResult> DeleteComment(string id, string commentId)
         {
@@ -188,7 +194,7 @@ namespace art_gallery.Controllers
             {
                 return new ObjectResult("You are not the owner of this art.")
                 {
-                    StatusCode = 403 // Forbidden
+                    StatusCode = 403 // Forbiddenn
                 };
             }
             if (comment.UserId != userId)

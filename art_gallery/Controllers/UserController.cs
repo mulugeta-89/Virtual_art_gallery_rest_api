@@ -17,6 +17,8 @@ namespace art_gallery.Controllers
             _artService = artService;
             _soloExhibitionService = soloExhibitionService;
         }
+
+        [Authorize(Roles = "ARTIST")]
         [HttpGet("Arts")]
         public async Task<IActionResult> GetArts()
         {
@@ -25,6 +27,7 @@ namespace art_gallery.Controllers
             return Ok(arts);
         }
 
+        [Authorize(Roles = "ARTIST")]
         [HttpGet("Exhibitions")]
         public async Task<IActionResult> GetExhibitions()
         {
