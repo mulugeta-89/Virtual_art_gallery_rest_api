@@ -8,7 +8,6 @@ using System.Security.Claims;
 
 namespace art_gallery.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ArtsController : ControllerBase
@@ -128,6 +127,7 @@ namespace art_gallery.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpGet("{id}/Comments")]
         public async Task<IActionResult> GetComments(string id)
         {
@@ -139,6 +139,7 @@ namespace art_gallery.Controllers
             return Ok(art.Comments);
         }
 
+        [Authorize]
         [HttpGet("{id}/Comments/{commentId}")]
         public async Task<IActionResult> GetComment(string id, string commentId)
         {
