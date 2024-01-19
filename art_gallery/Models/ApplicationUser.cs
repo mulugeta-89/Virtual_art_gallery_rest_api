@@ -8,5 +8,6 @@ namespace art_gallery.Models
     public class ApplicationUser : MongoIdentityUser<Guid>
     {
         public string FullName = string.Empty;
+        public bool IsArtist = false;
     }
 }

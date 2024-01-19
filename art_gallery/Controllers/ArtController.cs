@@ -42,6 +42,7 @@ namespace art_gallery.Controllers
             return Ok(art);
         }
 
+        [Authorize(Roles = "ARTIST")]
         [HttpPost]
         public async Task<IActionResult> Post(Art art)
         {

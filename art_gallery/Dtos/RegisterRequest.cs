@@ -10,6 +10,9 @@ namespace art_gallery.Dtos
         [Required]
         public string FullName { get; set; } = string.Empty;
 
+        [Required]
+        public bool IsArtist { get; set; } = false;
+
         [Required, DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
         [Required, DataType(DataType.Password), Compare(nameof(Password), ErrorMessage = "Passwords do not match")]

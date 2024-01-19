@@ -17,10 +17,12 @@ namespace art_gallery.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
-        public AuthenticationController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        public readonly AuthenticationService _authenticationService;
+        public AuthenticationController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, AuthenticationService authenticationService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _authenticationService = authenticationService;
         }
 
 
@@ -54,7 +56,9 @@ namespace art_gallery.Controllers
                 userExists = new ApplicationUser
                 {
                     FullName = request.FullName,
+                    IsArtist = request.IsArtist,
                     Email = request.Email,
+
                     ConcurrencyStamp = Guid.NewGuid().ToString(),
                     UserName = request.Email,
 
@@ -63,7 +67,8 @@ namespace art_gallery.Controllers
                 if (!createUserResult.Succeeded) return new RegisterResponse { Message = $"Create user failed {createUserResult?.Errors?.First()?.Description}", Success = false };
                 //user is created...
                 //then add user to a role...
-                var addUserToRoleResult = await _userManager.AddToRoleAsync(userExists, "USER");
+                var role = _authenticationService.DetermineUserRole(userExists.IsArtist);
+                var addUserToRoleResult = await _userManager.AddToRoleAsync(userExists, role);
                 if (!addUserToRoleResult.Succeeded) return new RegisterResponse { Message = $"Create user succeeded but could not add user to role {addUserToRoleResult?.Errors?.First()?.Description}", Success = false };
 
                 //all is still well..
@@ -73,16 +78,12 @@ namespace art_gallery.Controllers
                     Message = "User registered successfully"
                 };
 
-
-
             }
             catch (Exception ex)
             {
                 return new RegisterResponse { Message = ex.Message, Success = false };
             }
         }
-
-
         [HttpGet("users/{userId}")]
         public async Task<IActionResult> GetUserById(string userId)
         {
