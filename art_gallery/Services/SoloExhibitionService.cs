@@ -30,6 +30,9 @@ namespace art_gallery.Services
             return await _exhibitionsCollection.Find(s => s.Id == id).FirstOrDefaultAsync();
         }
 
+        public async Task<List<SoloExhibition>> GetSpecificAsync(string ownerId) =>
+            await _exhibitionsCollection.Find(x => x.Curator == ownerId).ToListAsync();
+
         public async Task CreateAsync(SoloExhibition soloExhibition)
         {
             await _exhibitionsCollection.InsertOneAsync(soloExhibition);

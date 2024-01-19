@@ -23,9 +23,11 @@ namespace art_gallery.Services
 
         public async Task<List<Art>> GetAsync() =>
             await _artsCollection.Find(_ => true).ToListAsync();
+        public async Task<List<Art>> GetPublicAsync() =>
+            await _artsCollection.Find(art => art.Private == false).ToListAsync();
 
         public async Task<Art?> GetAsync(string id) =>
-            await _artsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+            await _artsCollection.Find(x => x.Id == id && x.Private == false).FirstOrDefaultAsync();
 
         public async Task<List<Art>> GetSpecificAsync(string ownerId) =>
             await _artsCollection.Find(x => x.Owner == ownerId).ToListAsync();

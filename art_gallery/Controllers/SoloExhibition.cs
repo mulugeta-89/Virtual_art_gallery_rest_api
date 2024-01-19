@@ -1,10 +1,12 @@
 ﻿using art_gallery.Models;
 using art_gallery.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace art_gallery.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SoloExhibitionController : ControllerBase
@@ -31,7 +33,7 @@ namespace art_gallery.Controllers
             var soloExhibition = await _soloExhibitionService.GetByIdAsync(id);
             if (soloExhibition == null)
             {
-                return NotFound();
+                return NotFound("Exhibition Not Found");
             }
             return Ok(soloExhibition);
         }
@@ -54,10 +56,24 @@ namespace art_gallery.Controllers
             var existingExhibition = await _soloExhibitionService.GetByIdAsync(id);
             if (existingExhibition == null)
             {
-                return NotFound();
+                return NotFound("Specified Exhibition not found");
             }
+            var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (soloExhibition.Curator != userId)
+            {
+                return new ObjectResult("You are not the curator this Exhibition.")
+                {
+                    StatusCode = 403 // Forbidden
+                };
+            }
+            existingExhibition.Id = soloExhibition.Id ?? existingExhibition.Id;
+            existingExhibition.StartDate = soloExhibition.StartDate;
+            existingExhibition.EndDate = soloExhibition.EndDate;
+            existingExhibition.Description = soloExhibition.Description;
+            existingExhibition.Title = soloExhibition.Title;
+            existingExhibition.ArtworkIds = soloExhibition.ArtworkIds;
 
-            await _soloExhibitionService.UpdateAsync(id, soloExhibition);
+            await _soloExhibitionService.UpdateAsync(id, existingExhibition);
             return NoContent();
         }
 
@@ -67,7 +83,15 @@ namespace art_gallery.Controllers
             var soloExhibition = await _soloExhibitionService.GetByIdAsync(id);
             if (soloExhibition == null)
             {
-                return NotFound();
+                return NotFound("Exhibition Not Found");
+            }
+            var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (soloExhibition.Curator != userId)
+            {
+                return new ObjectResult("You are not the curator of this Exhibition.")
+                {
+                    StatusCode = 403 // Forbidden
+                };
             }
 
             await _soloExhibitionService.DeleteAsync(id);

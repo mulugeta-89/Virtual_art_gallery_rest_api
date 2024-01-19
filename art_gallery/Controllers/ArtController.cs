@@ -18,10 +18,17 @@ namespace art_gallery.Controllers
         {
             _artService = artService;
         }
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            var arts = await _artService.GetAsync();
+            return Ok(arts);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var arts = await _artService.GetAsync();
+            var arts = await _artService.GetPublicAsync();
             return Ok(arts);
         }
 
