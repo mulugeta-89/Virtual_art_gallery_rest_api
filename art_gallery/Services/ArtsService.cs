@@ -6,8 +6,7 @@ namespace art_gallery.Services
 {
     public class ArtsService
     {
-        private readonly IMongoCollection<Art> _artsCollection,
-            _exhibitionsCollection;
+        private readonly IMongoCollection<Art> _artsCollection;
 
         public ArtsService(IOptions<ArtGalleryDatabaseSettings> ArtGalleryDatabaseSettings)
         {

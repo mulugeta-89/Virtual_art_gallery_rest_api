@@ -13,7 +13,9 @@ var mongoDbIdentityConfig = new MongoDbIdentityConfiguration
 {
     MongoDbSettings = new MongoDbSettings
     {
-        ConnectionString = "mongodb://localhost:27017",
+        ConnectionString =  "mongodb://localhost:27017",
+        //ConnectionString = "mongodb+srv://mulugetahail89:Mulu2835@cluster0.expungk.mongodb.net/artGallery",
+
         DatabaseName = "artGallery"
     },
     IdentityOptionsAction = options =>

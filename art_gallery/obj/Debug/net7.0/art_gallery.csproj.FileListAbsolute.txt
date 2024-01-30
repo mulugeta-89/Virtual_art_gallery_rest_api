@@ -55,3 +55,10 @@ C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7
 C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\.csharpierrc.json
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\Castle.Core.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\Moq.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\xunit.abstractions.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\xunit.assert.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\xunit.core.dll
+C:\Users\Addisalem_Hailegnaw\source\repos\art_gallery\art_gallery\bin\Debug\net7.0\xunit.execution.dotnet.dll

@@ -34,7 +34,7 @@ namespace art_gallery.Services
                         Success = false
                     };
 
-                //if we get here, no user with this email..
+                
 
                 userExists = new ApplicationUser
                 {
@@ -43,7 +43,8 @@ namespace art_gallery.Services
                     Email = request.Email,
 
                     ConcurrencyStamp = Guid.NewGuid().ToString(),
-                    UserName = request.Email,
+                    UserName = request.Username,
+
                 };
                 var createUserResult = await _userManager.CreateAsync(userExists, request.Password);
                 if (!createUserResult.Succeeded)
@@ -53,8 +54,7 @@ namespace art_gallery.Services
                             $"Create user failed {createUserResult?.Errors?.First()?.Description}",
                         Success = false
                     };
-                //user is created...
-                //then add user to a role...
+                
                 var role = DetermineUserRole(userExists.IsArtist);
                 var addUserToRoleResult = await _userManager.AddToRoleAsync(userExists, role);
                 if (!addUserToRoleResult.Succeeded)
@@ -65,7 +65,7 @@ namespace art_gallery.Services
                         Success = false
                     };
 
-                //all is still well..
+                
                 return new RegisterResponse
                 {
                     Success = true,
@@ -121,6 +121,8 @@ namespace art_gallery.Services
                     AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
                     Message = "Login Successful",
                     Email = user?.Email,
+                    Username = user?.UserName,
+                    FullName = user?.FullName,
                     Success = true,
                     UserId = user?.Id.ToString()
                 };
