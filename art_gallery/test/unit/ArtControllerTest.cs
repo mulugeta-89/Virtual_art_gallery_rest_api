@@ -228,7 +228,7 @@ namespace art_gallery.test.unit
                 Assert.Equal(204, foundedArt.StatusCode);
                 Assert.Equal((item as Art).Title, replacer.Title);
             }
-            
+
         }
 
         [Fact]
@@ -265,8 +265,8 @@ namespace art_gallery.test.unit
             //Act
             var deletedArt = await _artController.Delete(id) as ObjectResult;
 
-            
-             Assert.Equal(403, deletedArt.StatusCode);
+
+            Assert.Equal(403, deletedArt.StatusCode);
 
         }
 
@@ -379,7 +379,8 @@ namespace art_gallery.test.unit
         public async Task PostComment_InValidArtIdProvided_ReturnsNotFound()
         {
             var art_id = Guid.NewGuid().ToString();
-            var another_comment = new Comment {
+            var another_comment = new Comment
+            {
                 Id = new Guid("60d5b4a6-6d4d-89d2-ef8c-d6d100000003").ToString(),
                 UserId = new Guid("70d5b4a6-6d4d-89d2-ef8c-d6d100000004").ToString(),
                 Content = "I appreciate the insight.",
@@ -427,7 +428,7 @@ namespace art_gallery.test.unit
             //Assert
             var comments = Assert.IsType<List<Comment>>(okResult.Value);
             Assert.Equal(3, comments.Count);
-            
+
         }
 
         [Fact]

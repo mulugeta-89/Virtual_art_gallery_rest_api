@@ -1,4 +1,5 @@
-﻿using art_gallery.Models;
+﻿using art_gallery.Interfaces;
+using art_gallery.Models;
 using art_gallery.test.unit;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;

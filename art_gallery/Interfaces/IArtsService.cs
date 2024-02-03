@@ -1,4 +1,6 @@
-﻿namespace art_gallery.Models
+﻿using art_gallery.Models;
+
+namespace art_gallery.Interfaces
 {
     public interface IArtsService
     {

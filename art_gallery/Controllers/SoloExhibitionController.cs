@@ -1,8 +1,11 @@
 ﻿using System.Security.Claims;
+using art_gallery.Interfaces;
 using art_gallery.Models;
 using art_gallery.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
 
 namespace art_gallery.Controllers
 {
@@ -10,22 +13,22 @@ namespace art_gallery.Controllers
     [ApiController]
     public class SoloExhibitionController : ControllerBase
     {
-        private readonly SoloExhibitionService _soloExhibitionService;
+        private readonly ISoloExhibitionService _soloExhibitionService;
 
-        public SoloExhibitionController(SoloExhibitionService soloExhibitionService)
+        public SoloExhibitionController(ISoloExhibitionService soloExhibitionService)
         {
             _soloExhibitionService = soloExhibitionService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SoloExhibition>>> Get()
+        public async Task<IActionResult> Get()
         {
             var soloExhibitions = await _soloExhibitionService.GetAllAsync();
             return Ok(soloExhibitions);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SoloExhibition>> GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
             var soloExhibition = await _soloExhibitionService.GetByIdAsync(id);
             if (soloExhibition == null)
@@ -37,7 +40,7 @@ namespace art_gallery.Controllers
 
         [Authorize(Roles = "ARTIST")]
         [HttpPost]
-        public async Task<ActionResult> Create(SoloExhibition soloExhibition)
+        public async Task<IActionResult> Create(SoloExhibition soloExhibition)
         {
             var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             soloExhibition.Curator = userId;
@@ -48,7 +51,7 @@ namespace art_gallery.Controllers
 
         [Authorize(Roles = "ARTIST")]
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(string id, SoloExhibition soloExhibition)
+        public async Task<IActionResult> Update(string id, SoloExhibition soloExhibition)
         {
             var existingExhibition = await _soloExhibitionService.GetByIdAsync(id);
             if (existingExhibition == null)
@@ -76,24 +79,26 @@ namespace art_gallery.Controllers
 
         [Authorize(Roles = "ARTIST")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var soloExhibition = await _soloExhibitionService.GetByIdAsync(id);
-            if (soloExhibition == null)
             {
-                return NotFound("Exhibition Not Found");
-            }
-            var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (soloExhibition.Curator != userId)
-            {
-                return new ObjectResult("You are not the curator of this Exhibition.")
+                var soloExhibition = await _soloExhibitionService.GetByIdAsync(id);
+                if (soloExhibition == null)
                 {
-                    StatusCode = 403 // Forbidden
-                };
-            }
+                    return NotFound("Exhibition Not Found");
+                }
+                var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (soloExhibition.Curator != userId)
+                {
+                    return new ObjectResult("You are not the curator of this Exhibition.")
+                    {
+                        StatusCode = 403 // Forbidden
+                    };
+                }
 
-            await _soloExhibitionService.DeleteAsync(id);
-            return NoContent();
+                await _soloExhibitionService.DeleteAsync(id);
+                return NoContent();
+            }
         }
 
         [Authorize]
@@ -107,6 +112,7 @@ namespace art_gallery.Controllers
             }
             return Ok(exhibition.Comments);
         }
+
 
         [Authorize]
         [HttpGet("{id}/Comments/{commentId}")]

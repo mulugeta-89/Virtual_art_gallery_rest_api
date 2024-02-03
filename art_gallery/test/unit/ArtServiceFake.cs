@@ -1,11 +1,12 @@
-﻿using art_gallery.Models;
+﻿using art_gallery.Interfaces;
+using art_gallery.Models;
 
 namespace art_gallery.test.unit
 {
     public class ArtServiceFake : IArtsService
     {
         private readonly List<Art> _arts;
-        private readonly String userId;
+        private readonly string userId;
         public ArtServiceFake()
         {
             userId = "b381f98c-2f43-4a9e-9e2e-8523b996e0dd";
@@ -26,10 +27,10 @@ namespace art_gallery.test.unit
                     Style = "Abstract",
                     EstimatedValue = 1500.00M,
                     Comments = new List<Comment>
-                        {
+                    {
                             new Comment { Id = new Guid("60d5b4a6-6d4d-89d2-ef8c-d6d100000001").ToString(), UserId = new Guid("70d5b4a6-6d4d-89d2-ef8c-d6d100000002").ToString(), Content = "This is amazing!", Timestamp = DateTime.UtcNow },
                             new Comment { Id = new Guid("80d5b4a6-6d4d-89d2-ef8c-d6d100000003").ToString(), UserId = new Guid("90d5b4a6-6d4d-89d2-ef8c-d6d100000004").ToString(), Content = "I love the colors!", Timestamp = DateTime.UtcNow }
-                        }
+                    }
 
         },
                 new Art
@@ -62,10 +63,10 @@ namespace art_gallery.test.unit
                     Style = "Modern Art",
                     EstimatedValue = 1800.00M,
                     Comments = new List<Comment>
-                        {
-                            new Comment { Id = new Guid("60d5b4a6-6d4d-89d2-ef8c-d6d100000001").ToString(), UserId = new Guid("70d5b4a6-6d4d-89d2-ef8c-d6d100000002").ToString(), Content = "This is thought-provoking.", Timestamp = DateTime.UtcNow },
-                            new Comment { Id = new Guid("80d5b4a6-6d4d-89d2-ef8c-d6d100000003").ToString(), UserId = new Guid("90d5b4a6-6d4d-89d2-ef8c-d6d100000004").ToString(), Content = "I see the beauty in chaos!", Timestamp = DateTime.UtcNow }
-                        }
+                    {
+                           new Comment { Id = new Guid("60d5b4a6-6d4d-89d2-ef8c-d6d100000001").ToString(), UserId = new Guid("70d5b4a6-6d4d-89d2-ef8c-d6d100000002").ToString(), Content = "This is thought-provoking.", Timestamp = DateTime.UtcNow },
+                           new Comment { Id = new Guid("80d5b4a6-6d4d-89d2-ef8c-d6d100000003").ToString(), UserId = new Guid("90d5b4a6-6d4d-89d2-ef8c-d6d100000004").ToString(), Content = "I see the beauty in chaos!", Timestamp = DateTime.UtcNow }
+                    }
 
         }
     };
@@ -73,12 +74,12 @@ namespace art_gallery.test.unit
 
         public Task<List<Art>> GetAsync()
         {
-            return Task.FromResult<List<Art>>(_arts);
+            return Task.FromResult(_arts);
         }
         public Task<List<Art>> GetPublicAsync()
         {
             var public_arts = _arts.FindAll(x => x.Private == false);
-            return Task.FromResult<List<Art>>(public_arts);
+            return Task.FromResult(public_arts);
         }
 
         public Task<Art> GetAsync(string id)
@@ -89,7 +90,7 @@ namespace art_gallery.test.unit
         public Task<List<Art>> GetSpecificAsync(string id)
         {
             var arts = _arts.FindAll(x => x.Owner == id);
-            return Task.FromResult<List<Art>>(arts);
+            return Task.FromResult(arts);
         }
         public Task CreateAsync(Art art)
         {
@@ -99,19 +100,6 @@ namespace art_gallery.test.unit
             return Task.FromResult<Art>(art);
         }
 
-        //public Task UpdateAsync(string id, Art willReplace)
-        //{
-        //    var updatedArt = _arts.FirstOrDefault(x => x.Id == id);
-        //    willReplace.Id = new Guid().ToString();
-        //    willReplace.Owner = new Guid().ToString();
-        //    if (updatedArt != null)
-        //    {
-        //        updatedArt.Id = willReplace.Id;
-        //        return Task.FromResult<Art>(updatedArt);
-        //    }
-        //    return null;
-
-        //}
         public Task UpdateAsync(string id, Art willReplace)
         {
             var updatedArt = _arts.FirstOrDefault(x => x.Id == id);
@@ -145,8 +133,10 @@ namespace art_gallery.test.unit
         {
             var existing = _arts.First(x => x.Id == Id);
             _arts.Remove(existing);
-            return Task.FromResult<Art>(existing);
+            return Task.FromResult(existing);
         }
+
+
     }
 }
 

@@ -1,10 +1,11 @@
-﻿using art_gallery.Models;
+﻿using art_gallery.Interfaces;
+using art_gallery.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace art_gallery.Services
 {
-    public class SoloExhibitionService
+    public class SoloExhibitionService : ISoloExhibitionService
     {
         private readonly IMongoCollection<SoloExhibition> _exhibitionsCollection;
 

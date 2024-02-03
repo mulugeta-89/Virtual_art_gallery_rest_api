@@ -1,4 +1,5 @@
 using System.Text;
+using art_gallery.Interfaces;
 using art_gallery.Models;
 using art_gallery.Services;
 using art_gallery.test.unit;
@@ -72,8 +73,8 @@ builder
 builder.Services.Configure<ArtGalleryDatabaseSettings>(
     builder.Configuration.GetSection("ArtGalleryDatabase")
 );
-builder.Services.AddSingleton<IArtsService,ArtsService>();
-builder.Services.AddSingleton<SoloExhibitionService>();
+builder.Services.AddScoped<IArtsService, ArtsService>();
+builder.Services.AddScoped<ISoloExhibitionService, SoloExhibitionService>();
 builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddControllers();
 

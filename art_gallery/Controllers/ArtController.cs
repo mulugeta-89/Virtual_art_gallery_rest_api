@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Amazon.Runtime.Internal;
+using art_gallery.Interfaces;
 using art_gallery.Models;
 using art_gallery.Services;
 using Microsoft.AspNetCore.Authorization;
