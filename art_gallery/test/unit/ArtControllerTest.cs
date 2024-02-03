@@ -281,7 +281,7 @@ namespace art_gallery.test.unit
         }
 
         [Fact]
-        public async Task GetComments_WhenCalled_ReturnsOkResult()
+        public async Task GetComments_ValidArtIdProvided_ReturnsOkResult()
         {
             var art_id = "c61db880-2c02-4cd4-9dcb-dc118f78d3c8";
             //Act
@@ -289,6 +289,71 @@ namespace art_gallery.test.unit
 
             //Assert
             Assert.IsType<OkObjectResult>(okResult as OkObjectResult);
+        }
+
+        [Fact]
+        public async Task GetComments_InValidArtIdProvided_ReturnsNotFound()
+        {
+            var art_id = Guid.NewGuid().ToString();
+
+            //Act
+            var notFoundResult = await _artController.GetComments(art_id);
+
+            //Assert
+            Assert.IsType<NotFoundObjectResult>(notFoundResult);
+        }
+
+        [Fact]
+        public async Task GetComments_ValidIdProvided_ReturnsTheRightComments()
+        {
+            var art_id = "c61db880-2c02-4cd4-9dcb-dc118f78d3c8";
+
+            //Act
+            var okResult = await _artController.GetComments(art_id) as OkObjectResult;
+
+            //Assert
+            var comments = Assert.IsType<List<Comment>>(okResult.Value);
+            Assert.Equal(2, (comments as List<Comment>).Count);
+        }
+
+        [Fact]
+        public async Task GetComment_InvalidArtIdProvided_ReturnsNotFound()
+        {
+            var art_id = Guid.NewGuid().ToString();
+            var comment_id = "60d5b4a6-6d4d-89d2-ef8c-d6d100000001";
+
+            //Act
+            var notFoundResult = await _artController.GetComment(art_id, comment_id);
+
+            //Assert
+            Assert.IsType<NotFoundObjectResult>(notFoundResult);
+        }
+
+        [Fact]
+        public async Task GetComment_ValidArtIdProvided_ReturnsOkResult()
+        {
+            var art_id = "c61db880-2c02-4cd4-9dcb-dc118f78d3c8";
+            var comment_id = "60d5b4a6-6d4d-89d2-ef8c-d6d100000001";
+
+            //Act
+            var okResult = await _artController.GetComment(art_id, comment_id);
+
+            //Assert
+            Assert.IsType<OkObjectResult>(okResult);
+        }
+
+        [Fact]
+        public async Task GetComment_ValidArtIdProvided_ReturnsTheRightComment()
+        {
+            var art_id = "c61db880-2c02-4cd4-9dcb-dc118f78d3c8";
+            var comment_id = "60d5b4a6-6d4d-89d2-ef8c-d6d100000001";
+
+            //Act
+            var okResult = await _artController.GetComment(art_id, comment_id) as OkObjectResult;
+
+            //Assert
+            var founded_comment = Assert.IsType<Comment>(okResult.Value as Comment);
+            Assert.Equal(comment_id, founded_comment.Id);
         }
 
     }

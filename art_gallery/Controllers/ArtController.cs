@@ -147,11 +147,11 @@ namespace art_gallery.Controllers
         public async Task<IActionResult> GetComment(string id, string commentId)
         {
             var art = await _artService.GetAsync(id);
-            var artComments = art.Comments;
-            if (art == null || artComments == null)
+            if (art == null)
             {
                 return NotFound("art not found");
             }
+            var artComments = art.Comments;
             var comment = artComments.FirstOrDefault(y => y.Id == commentId);
             return Ok(comment);
         }
