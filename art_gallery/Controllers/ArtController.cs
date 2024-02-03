@@ -12,9 +12,9 @@ namespace art_gallery.Controllers
     [ApiController]
     public class ArtsController : ControllerBase
     {
-        public readonly ArtsService _artService;
+        public readonly IArtsService _artService;
 
-        public ArtsController(ArtsService artService)
+        public ArtsController(IArtsService artService)
         {
             _artService = artService;
         }

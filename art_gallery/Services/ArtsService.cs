@@ -1,10 +1,12 @@
 ﻿using art_gallery.Models;
+using art_gallery.test.unit;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Collections;
 
 namespace art_gallery.Services
 {
-    public class ArtsService
+    public class ArtsService : IArtsService
     {
         private readonly IMongoCollection<Art> _artsCollection;
 
@@ -20,7 +22,7 @@ namespace art_gallery.Services
                 ArtGalleryDatabaseSettings.Value.ArtsCollectionName
             );
         }
-
+        //Task<List<Art>>
         public async Task<List<Art>> GetAsync() =>
             await _artsCollection.Find(_ => true).ToListAsync();
 
