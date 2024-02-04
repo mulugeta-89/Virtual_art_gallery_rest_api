@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Amazon.Runtime.Internal;
+using art_gallery.Interfaces;
 using art_gallery.Models;
 using art_gallery.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -12,9 +13,9 @@ namespace art_gallery.Controllers
     [ApiController]
     public class ArtsController : ControllerBase
     {
-        public readonly ArtsService _artService;
+        public readonly IArtsService _artService;
 
-        public ArtsController(ArtsService artService)
+        public ArtsController(IArtsService artService)
         {
             _artService = artService;
         }
@@ -147,11 +148,11 @@ namespace art_gallery.Controllers
         public async Task<IActionResult> GetComment(string id, string commentId)
         {
             var art = await _artService.GetAsync(id);
-            var artComments = art.Comments;
-            if (art == null || artComments == null)
+            if (art == null)
             {
                 return NotFound("art not found");
             }
+            var artComments = art.Comments;
             var comment = artComments.FirstOrDefault(y => y.Id == commentId);
             return Ok(comment);
         }
@@ -194,23 +195,25 @@ namespace art_gallery.Controllers
                 return NotFound("comment not found");
             }
             var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (art.Owner != userId)
+            //if (art.Owner != userId)
+            //{
+            //    return new ObjectResult("You are not the owner of this art.")
+            //    {
+            //        StatusCode = 403 // Forbiddenn
+            //    };
+            //}
+            if (comment.UserId == userId)
             {
-                return new ObjectResult("You are not the owner of this art.")
-                {
-                    StatusCode = 403 // Forbiddenn
-                };
+                art.Comments.Remove(comment);
+                await _artService.UpdateAsync(id, art);
+                return Ok("Comment deleted successfully");
             }
-            if (comment.UserId != userId)
+            return new ObjectResult("You are not the owner of the comment.")
             {
-                return new ObjectResult("You are not the ownder of the comment.")
-                {
-                    StatusCode = 403 // Forbidden
-                };
-            }
-            art.Comments.Remove(comment);
-            await _artService.UpdateAsync(id, art);
-            return Ok(art.Comments);
+                StatusCode = 403 // Forbidden
+            };
+
+
         }
     }
 }

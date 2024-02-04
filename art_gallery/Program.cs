@@ -1,6 +1,8 @@
 using System.Text;
+using art_gallery.Interfaces;
 using art_gallery.Models;
 using art_gallery.Services;
+using art_gallery.test.unit;
 using AspNetCore.Identity.MongoDbCore.Extensions;
 using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -71,8 +73,8 @@ builder
 builder.Services.Configure<ArtGalleryDatabaseSettings>(
     builder.Configuration.GetSection("ArtGalleryDatabase")
 );
-builder.Services.AddSingleton<ArtsService>();
-builder.Services.AddSingleton<SoloExhibitionService>();
+builder.Services.AddScoped<IArtsService, ArtsService>();
+builder.Services.AddScoped<ISoloExhibitionService, SoloExhibitionService>();
 builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddControllers();
 
