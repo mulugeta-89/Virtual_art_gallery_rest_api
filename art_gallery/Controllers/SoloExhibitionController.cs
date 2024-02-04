@@ -59,7 +59,7 @@ namespace art_gallery.Controllers
                 return NotFound("Specified Exhibition not found");
             }
             var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (soloExhibition.Curator != userId)
+            if (existingExhibition.Curator != userId)
             {
                 return new ObjectResult("You are not the curator this Exhibition.")
                 {
@@ -119,12 +119,16 @@ namespace art_gallery.Controllers
         public async Task<IActionResult> GetComment(string id, string commentId)
         {
             var exhibition = await _soloExhibitionService.GetByIdAsync(id);
-            var exhibitionComments = exhibition.Comments;
-            if (exhibition == null || exhibitionComments == null)
+            if (exhibition == null)
             {
                 return NotFound("exhibition not found");
             }
+            var exhibitionComments = exhibition.Comments;
             var comment = exhibitionComments.FirstOrDefault(y => y.Id == commentId);
+            if (comment == null)
+            {
+                return NotFound("Comment not found");
+            }
             return Ok(comment);
         }
 
